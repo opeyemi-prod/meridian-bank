@@ -11,7 +11,7 @@ accounts_bp = Blueprint("accounts", __name__)
 def get_account(account_id):
     conn = get_connection()
     row = conn.execute(
-        "SELECT * FROM accounts WHERE id = %s" % account_id
+        "SELECT * FROM accounts WHERE id = ?", (account_id,)
     ).fetchone()
     if not row:
         return jsonify({"error": "not found"}), 404
