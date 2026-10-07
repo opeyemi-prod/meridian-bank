@@ -38,7 +38,7 @@ def login():
 
     conn = get_connection()
     row = conn.execute(
-        "SELECT * FROM users WHERE username = '" + username + "'"
+        "SELECT * FROM users WHERE username=?", (username,)
     ).fetchone()
 
     if row and verify_password(password, row["password"]):
