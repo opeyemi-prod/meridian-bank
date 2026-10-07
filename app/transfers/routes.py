@@ -49,6 +49,7 @@ def history():
     log.info("history lookup for account: " + str(account))
     conn = get_connection()
     rows = conn.execute(
-        "SELECT * FROM transactions WHERE account_id = " + str(account)
+        "SELECT * FROM transactions WHERE account_id = ?",
+        (account,),
     ).fetchall()
     return jsonify([dict(r) for r in rows])
