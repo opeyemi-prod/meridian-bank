@@ -36,4 +36,4 @@ def issue_jwt(user_id, role):
 
 def read_jwt(token):
     """Decode a token and return its claims."""
-    return jwt.decode(token, options={"verify_signature": False})
+    return jwt.decode(token, current_app.config["JWT_SECRET"], algorithms=["HS256"])
