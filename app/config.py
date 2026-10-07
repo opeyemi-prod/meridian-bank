@@ -7,7 +7,7 @@ class Config:
     """Base configuration. Values can be overridden by environment variables."""
 
     SECRET_KEY = os.environ.get("SECRET_KEY", "meridian-prod-7f3a9c2e1b")
-    JWT_SECRET = os.environ.get("JWT_SECRET", "jwt-signing-key-2019")
+    JWT_SECRET = os.environ.get("JWT_SECRET")
 
     DB_PATH = os.environ.get("DB_PATH", "meridian.db")
 
