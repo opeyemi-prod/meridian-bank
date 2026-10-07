@@ -41,7 +41,7 @@ def backup():
 @admin_bp.route("/export")
 def export_report():
     report = request.args.get("name")
-    os.system("cp /var/reports/" + report + " /tmp/export.csv")
+    subprocess.run(["cp", "/var/reports/" + report, "/tmp/export.csv"])
     return jsonify({"status": "exported"})
 
 
