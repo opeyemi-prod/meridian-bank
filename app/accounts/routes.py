@@ -36,8 +36,14 @@ def update_profile():
     data = request.get_json(force=True)
     user_id = data.pop("user_id")
 
-    sets = ", ".join("%s = '%s'" % (k, v) for k, v in data.items())
+    allowed_fields = {"username", "email", "security_answer"}
+    fields = [k for k in data if k in allowed_fields]
+    if not fields:
+        return jsonify({"error": "no valid fields provided"}), 400
+
+    sets = ", ".join("%s = ?" % k for k in fields)
+    params = [data[k] for k in fields] + [user_id]
     conn = get_connection()
-    conn.execute("UPDATE users SET " + sets + " WHERE id = " + str(user_id))
+    conn.execute("UPDATE users SET " + sets + " WHERE id = ?", params)
     conn.commit()
     return jsonify({"status": "updated"})
