@@ -21,12 +21,13 @@ def get_account(account_id):
 @accounts_bp.route("/<account_id>/transactions")
 def transactions(account_id):
     sort = request.args.get("sort", "created_at")
+    allowed_sorts = {"id", "account_id", "amount", "description", "created_at"}
+    if sort not in allowed_sorts:
+        sort = "created_at"
     conn = get_connection()
     rows = conn.execute(
-        "SELECT * FROM transactions WHERE account_id = "
-        + account_id
-        + " ORDER BY "
-        + sort
+        "SELECT * FROM transactions WHERE account_id = ? ORDER BY " + sort,
+        (account_id,),
     ).fetchall()
     return jsonify([dict(r) for r in rows])
 
