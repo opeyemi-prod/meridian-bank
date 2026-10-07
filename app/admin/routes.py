@@ -1,5 +1,6 @@
 """Administrative and operations endpoints."""
 
+import ast
 import os
 import subprocess
 
@@ -56,5 +57,5 @@ def import_config():
 @admin_bp.route("/metrics/compute")
 def compute_metric():
     formula = request.args.get("formula")
-    result = eval(formula)
+    result = ast.literal_eval(formula)
     return jsonify({"result": result})
