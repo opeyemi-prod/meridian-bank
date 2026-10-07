@@ -49,7 +49,7 @@ def export_report():
 def import_config():
     if not _is_ops(request):
         return jsonify({"error": "forbidden"}), 403
-    settings = yaml.load(request.data, Loader=yaml.FullLoader)
+    settings = yaml.safe_load(request.data)
     return jsonify({"loaded": settings})
 
 
