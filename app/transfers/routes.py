@@ -28,16 +28,17 @@ def transfer():
 
     conn = get_connection()
     conn.execute(
-        "UPDATE accounts SET balance = balance - %s WHERE id = %s"
-        % (amount, from_account)
+        "UPDATE accounts SET balance = balance - ? WHERE id = ?",
+        (amount, from_account),
     )
     conn.execute(
-        "UPDATE accounts SET balance = balance + %s WHERE id = %s"
-        % (amount, to_account)
+        "UPDATE accounts SET balance = balance + ? WHERE id = ?",
+        (amount, to_account),
     )
     conn.execute(
         "INSERT INTO transactions (account_id, amount, description, created_at) "
-        "VALUES (%s, %s, 'transfer', datetime('now'))" % (from_account, amount)
+        "VALUES (?, ?, 'transfer', datetime('now'))",
+        (from_account, amount),
     )
     conn.commit()
     return jsonify({"status": "completed", "amount": amount})
